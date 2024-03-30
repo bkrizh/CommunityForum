@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}
+  <title> Последние обновления на сайте </title>
+{% endblock title %}
+
+{% load cache %}
+
+{% block content %}
+{% include 'posts/includes/switcher.html' %}
+{% cache 20 index_page with page_obj %}
+{% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-success" role="alert">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+  {% for post in page_obj %}
+  {% include 'posts/includes/post_list.html' %}
+    {% if not forloop.last %}<hr>{% endif %}
+  {% endfor %}
+  {% include 'posts/includes/paginator.html' %}
+{% endcache %}
+{% endblock %}
